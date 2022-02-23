@@ -349,7 +349,7 @@ jenkins_add_custom_file() {
 #   None
 #########################
 jenkins_custom_init_scripts() {
-    if [[ -n $(find /docker-entrypoint-initdb.d/ -type f -regex ".*\.\(sh\|groovy\)") ]] && [[ ! -f "$DB_DATA_DIR/.user_scripts_initialized" ]] ; then
+    if [[ -n $(find /docker-entrypoint-initdb.d/ -type f -regex ".*\.\(sh\|groovy\)") ]] && [[ ! -f "${JENKINS_VOLUME_DIR}/.user_scripts_initialized" ]] ; then
         info "Loading user's custom files from /docker-entrypoint-initdb.d";
         for f in /docker-entrypoint-initdb.d/*; do
             debug "Executing $f"
@@ -378,6 +378,6 @@ jenkins_custom_init_scripts() {
                     ;;
             esac
         done
-        touch "$DB_DATA_DIR"/.user_scripts_initialized
+        touch "${JENKINS_VOLUME_DIR}/.user_scripts_initialized"
     fi
 }
